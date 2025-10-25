@@ -1,4 +1,6 @@
 ---
+import "../styles/global.css";
+
 const pageTitle = "Sobre mi";
 
 const identity = {
@@ -20,6 +22,10 @@ const skills = [
 const happy = true;
 const finished = false;
 const goal = 3;
+
+const skillColor = "navy";
+const fontWeight = "bold";
+const textCase = "capitalize";
 ---
 
 <html lang="en">
@@ -29,8 +35,22 @@ const goal = 3;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
+
+    <style define:vars={{ skillColor, fontWeight, textCase }}>
+      h1 {
+        color: purple;
+        fontsize: 4rem;
+      }
+
+      .skill {
+        color: var(--skillColor);
+        font-weight: var(--fontWeight);
+        text-transform: var(--textCase);
+      }
+    </style>
   </head>
   <body>
+    <h1>{pageTitle}</h1>
     <p>He aquí algunos datos sobre mí:</p>
     <ul>
       <li>Me llamo {identity.firstName}.</li>
@@ -45,7 +65,7 @@ const goal = 3;
       }
     </ul>
     <p>Mis habilidades son:</p>
-    <ul>
+    <ul class="skill">
       {skills.map((skill) => <li>{skill}</li>)}
     </ul>
 
