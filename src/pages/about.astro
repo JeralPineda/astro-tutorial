@@ -1,6 +1,5 @@
 ---
-import Footer from "@components/Footer.astro";
-import Header from "@components/Header.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
 import "@styles/global.css";
 
 const pageTitle = "Sobre mi";
@@ -30,65 +29,42 @@ const fontWeight = "bold";
 const textCase = "capitalize";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{pageTitle}</title>
-
-    <style define:vars={{ skillColor, fontWeight, textCase }}>
-      h1 {
-        color: purple;
-        fontsize: 4rem;
-      }
-
-      .skill {
-        color: var(--skillColor);
-        font-weight: var(--fontWeight);
-        text-transform: var(--textCase);
-      }
-    </style>
-  </head>
-  <body>
-    <Header />
-
-    <h1>{pageTitle}</h1>
-    <p>He aquí algunos datos sobre mí:</p>
-    <ul>
-      <li>Me llamo {identity.firstName}.</li>
-      <li>Vivo en {identity.country} y trabajo como {identity.occupation}.</li>
-      {
-        identity.hobbies.length >= 2 && (
-          <li>
-            Dos de mis aficiones son: {identity.hobbies[0]} y{" "}
-            {identity.hobbies[1]}
-          </li>
-        )
-      }
-    </ul>
-    <p>Mis habilidades son:</p>
-    <ul class="skill">
-      {skills.map((skill) => <li>{skill}</li>)}
-    </ul>
-
-    {happy && <p>¡Estoy feliz de aprender Astro!</p>}
-
-    {finished && <p>¡He terminado este tutorial!</p>}
-
+<BaseLayout pageTitle={pageTitle}>
+  <p>He aquí algunos datos sobre mí:</p>
+  <ul>
+    <li>Me llamo {identity.firstName}.</li>
+    <li>Vivo en {identity.country} y trabajo como {identity.occupation}.</li>
     {
-      goal === 3 ? (
-        <p>Mi objetivo es terminar en 3 días.</p>
-      ) : (
-        <p>Mi objetivo no son 3 días.</p>
+      identity.hobbies.length >= 2 && (
+        <li>
+          Dos de mis aficiones son: {identity.hobbies[0]} y{" "}
+          {identity.hobbies[1]}
+        </li>
       )
     }
+  </ul>
+  <p>Mis habilidades son:</p>
+  <ul class="skill">
+    {skills.map((skill) => <li>{skill}</li>)}
+  </ul>
 
-    <Footer />
+  {happy && <p>¡Estoy feliz de aprender Astro!</p>}
 
-    <script>
-      import "@scripts/menu.ts";
-    </script>
-  </body>
-</html>
+  {finished && <p>¡He terminado este tutorial!</p>}
+
+  {
+    goal === 3 ? (
+      <p>Mi objetivo es terminar en 3 días.</p>
+    ) : (
+      <p>Mi objetivo no son 3 días.</p>
+    )
+  }
+</BaseLayout>
+
+<style define:vars={{ skillColor, fontWeight, textCase }}>
+  .skill {
+    color: var(--skillColor);
+    font-weight: var(--fontWeight);
+    text-transform: var(--textCase);
+  }
+</style>
