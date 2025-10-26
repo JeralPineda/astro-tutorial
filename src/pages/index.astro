@@ -1,22 +1,14 @@
 ---
+import Greeting from "@/components/Greeting";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import "@/styles/global.css";
-import type { MarkdownPost } from "@/types/markdown";
 
-const allPosts = (await Astro.glob("@/pages/posts/*.md")) as MarkdownPost[];
-const tags = [...new Set(allPosts.map((post) => post.frontmatter.tags).flat())];
+import "@/styles/global.css";
 
 const pageTitle = "Página de inicio";
 ---
 
+<!-- client:load hace que el componente sea interactivo, se le llama componente hidratado -->
 <BaseLayout pageTitle={pageTitle}>
-  <div>
-    {
-      tags.map((tag) => (
-        <p>
-          <a href={`/tags/${tag}`}>{tag}</a>
-        </p>
-      ))
-    }
-  </div>
+  <h2>El impresionante subtítulo de mi blog</h2>
+  <Greeting client:load messages={["Hola", "Qué tal", "Hola a todos"]} />
 </BaseLayout>
