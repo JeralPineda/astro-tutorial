@@ -2,21 +2,18 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import BlogPost from "@/components/BlogPost.astro";
 import type { MarkdownPost } from "@/types/markdown";
+import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
-  const allPosts: any = (await Astro.glob(
-    "@/pages/posts/*.md"
-  )) as MarkdownPost[];
+  const allPosts: any = await getCollection("blog");
 
   const uniqueTags = [
-    ...new Set(allPosts.map((post: any) => post.frontmatter.tags || []).flat()),
-  ] as string[];
+    ...new Set(allPosts.map((post: any) => post.data.tags).flat()),
+  ];
 
   return uniqueTags.map((tag) => {
-    const filteredPosts = allPosts.filter(
-      (post: MarkdownPost) =>
-        Array.isArray(post.frontmatter.tags) &&
-        post.frontmatter.tags.includes(tag)
+    const filteredPosts = allPosts.filter((post: any) =>
+      post.data.tags.includes(tag)
     );
     return {
       params: { tag },
@@ -34,7 +31,7 @@ const { posts } = Astro.props;
   <ul>
     {
       posts.map((post: any) => (
-        <BlogPost url={post.url} title={post.frontmatter.title} />
+        <BlogPost url={`/posts/${post.id}/`} title={post.data.title} />
       ))
     }
   </ul>
